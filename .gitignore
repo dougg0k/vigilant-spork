@@ -1,0 +1,17 @@
+/node_modules
+/coverage
+/build
+.DS_Store
+.env
+.env.development
+.env.test
+.env.production
+logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.vs/
+.vscode/
+.idea
+README_Instructions.md
+pull_request_template.md
