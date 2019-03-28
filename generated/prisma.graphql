@@ -1,0 +1,1105 @@
+type AggregateReview {
+  count: Int!
+}
+
+type AggregateTastingSession {
+  count: Int!
+}
+
+type AggregateWine {
+  count: Int!
+}
+
+type AggregateWineTaster {
+  count: Int!
+}
+
+type BatchPayload {
+  count: Long!
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+scalar Long
+
+type Mutation {
+  createReview(data: ReviewCreateInput!): Review!
+  updateReview(data: ReviewUpdateInput!, where: ReviewWhereUniqueInput!): Review
+  updateManyReviews(data: ReviewUpdateManyMutationInput!, where: ReviewWhereInput): BatchPayload!
+  upsertReview(where: ReviewWhereUniqueInput!, create: ReviewCreateInput!, update: ReviewUpdateInput!): Review!
+  deleteReview(where: ReviewWhereUniqueInput!): Review
+  deleteManyReviews(where: ReviewWhereInput): BatchPayload!
+  createTastingSession(data: TastingSessionCreateInput!): TastingSession!
+  updateTastingSession(data: TastingSessionUpdateInput!, where: TastingSessionWhereUniqueInput!): TastingSession
+  upsertTastingSession(where: TastingSessionWhereUniqueInput!, create: TastingSessionCreateInput!, update: TastingSessionUpdateInput!): TastingSession!
+  deleteTastingSession(where: TastingSessionWhereUniqueInput!): TastingSession
+  deleteManyTastingSessions(where: TastingSessionWhereInput): BatchPayload!
+  createWine(data: WineCreateInput!): Wine!
+  updateWine(data: WineUpdateInput!, where: WineWhereUniqueInput!): Wine
+  updateManyWines(data: WineUpdateManyMutationInput!, where: WineWhereInput): BatchPayload!
+  upsertWine(where: WineWhereUniqueInput!, create: WineCreateInput!, update: WineUpdateInput!): Wine!
+  deleteWine(where: WineWhereUniqueInput!): Wine
+  deleteManyWines(where: WineWhereInput): BatchPayload!
+  createWineTaster(data: WineTasterCreateInput!): WineTaster!
+  updateWineTaster(data: WineTasterUpdateInput!, where: WineTasterWhereUniqueInput!): WineTaster
+  updateManyWineTasters(data: WineTasterUpdateManyMutationInput!, where: WineTasterWhereInput): BatchPayload!
+  upsertWineTaster(where: WineTasterWhereUniqueInput!, create: WineTasterCreateInput!, update: WineTasterUpdateInput!): WineTaster!
+  deleteWineTaster(where: WineTasterWhereUniqueInput!): WineTaster
+  deleteManyWineTasters(where: WineTasterWhereInput): BatchPayload!
+}
+
+enum MutationType {
+  CREATED
+  UPDATED
+  DELETED
+}
+
+interface Node {
+  id: ID!
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+
+type Query {
+  review(where: ReviewWhereUniqueInput!): Review
+  reviews(where: ReviewWhereInput, orderBy: ReviewOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Review]!
+  reviewsConnection(where: ReviewWhereInput, orderBy: ReviewOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ReviewConnection!
+  tastingSession(where: TastingSessionWhereUniqueInput!): TastingSession
+  tastingSessions(where: TastingSessionWhereInput, orderBy: TastingSessionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TastingSession]!
+  tastingSessionsConnection(where: TastingSessionWhereInput, orderBy: TastingSessionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TastingSessionConnection!
+  wine(where: WineWhereUniqueInput!): Wine
+  wines(where: WineWhereInput, orderBy: WineOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Wine]!
+  winesConnection(where: WineWhereInput, orderBy: WineOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): WineConnection!
+  wineTaster(where: WineTasterWhereUniqueInput!): WineTaster
+  wineTasters(where: WineTasterWhereInput, orderBy: WineTasterOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [WineTaster]!
+  wineTastersConnection(where: WineTasterWhereInput, orderBy: WineTasterOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): WineTasterConnection!
+  node(id: ID!): Node
+}
+
+type Review {
+  id: ID!
+  wine: Wine!
+  wineTaster: WineTaster!
+  tastingSession: TastingSession!
+  score: Int
+  tastingNotes: [TastingNotes!]!
+}
+
+type ReviewConnection {
+  pageInfo: PageInfo!
+  edges: [ReviewEdge]!
+  aggregate: AggregateReview!
+}
+
+input ReviewCreateInput {
+  wine: WineCreateOneInput!
+  wineTaster: WineTasterCreateOneWithoutReviewsInput!
+  tastingSession: TastingSessionCreateOneWithoutReviewsInput!
+  score: Int
+  tastingNotes: ReviewCreatetastingNotesInput
+}
+
+input ReviewCreateManyWithoutTastingSessionInput {
+  create: [ReviewCreateWithoutTastingSessionInput!]
+  connect: [ReviewWhereUniqueInput!]
+}
+
+input ReviewCreateManyWithoutWineTasterInput {
+  create: [ReviewCreateWithoutWineTasterInput!]
+  connect: [ReviewWhereUniqueInput!]
+}
+
+input ReviewCreatetastingNotesInput {
+  set: [TastingNotes!]
+}
+
+input ReviewCreateWithoutTastingSessionInput {
+  wine: WineCreateOneInput!
+  wineTaster: WineTasterCreateOneWithoutReviewsInput!
+  score: Int
+  tastingNotes: ReviewCreatetastingNotesInput
+}
+
+input ReviewCreateWithoutWineTasterInput {
+  wine: WineCreateOneInput!
+  tastingSession: TastingSessionCreateOneWithoutReviewsInput!
+  score: Int
+  tastingNotes: ReviewCreatetastingNotesInput
+}
+
+type ReviewEdge {
+  node: Review!
+  cursor: String!
+}
+
+enum ReviewOrderByInput {
+  id_ASC
+  id_DESC
+  score_ASC
+  score_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type ReviewPreviousValues {
+  id: ID!
+  score: Int
+  tastingNotes: [TastingNotes!]!
+}
+
+input ReviewScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  score: Int
+  score_not: Int
+  score_in: [Int!]
+  score_not_in: [Int!]
+  score_lt: Int
+  score_lte: Int
+  score_gt: Int
+  score_gte: Int
+  AND: [ReviewScalarWhereInput!]
+  OR: [ReviewScalarWhereInput!]
+  NOT: [ReviewScalarWhereInput!]
+}
+
+type ReviewSubscriptionPayload {
+  mutation: MutationType!
+  node: Review
+  updatedFields: [String!]
+  previousValues: ReviewPreviousValues
+}
+
+input ReviewSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: ReviewWhereInput
+  AND: [ReviewSubscriptionWhereInput!]
+  OR: [ReviewSubscriptionWhereInput!]
+  NOT: [ReviewSubscriptionWhereInput!]
+}
+
+input ReviewUpdateInput {
+  wine: WineUpdateOneRequiredInput
+  wineTaster: WineTasterUpdateOneRequiredWithoutReviewsInput
+  tastingSession: TastingSessionUpdateOneRequiredWithoutReviewsInput
+  score: Int
+  tastingNotes: ReviewUpdatetastingNotesInput
+}
+
+input ReviewUpdateManyDataInput {
+  score: Int
+  tastingNotes: ReviewUpdatetastingNotesInput
+}
+
+input ReviewUpdateManyMutationInput {
+  score: Int
+  tastingNotes: ReviewUpdatetastingNotesInput
+}
+
+input ReviewUpdateManyWithoutTastingSessionInput {
+  create: [ReviewCreateWithoutTastingSessionInput!]
+  delete: [ReviewWhereUniqueInput!]
+  connect: [ReviewWhereUniqueInput!]
+  set: [ReviewWhereUniqueInput!]
+  disconnect: [ReviewWhereUniqueInput!]
+  update: [ReviewUpdateWithWhereUniqueWithoutTastingSessionInput!]
+  upsert: [ReviewUpsertWithWhereUniqueWithoutTastingSessionInput!]
+  deleteMany: [ReviewScalarWhereInput!]
+  updateMany: [ReviewUpdateManyWithWhereNestedInput!]
+}
+
+input ReviewUpdateManyWithoutWineTasterInput {
+  create: [ReviewCreateWithoutWineTasterInput!]
+  delete: [ReviewWhereUniqueInput!]
+  connect: [ReviewWhereUniqueInput!]
+  set: [ReviewWhereUniqueInput!]
+  disconnect: [ReviewWhereUniqueInput!]
+  update: [ReviewUpdateWithWhereUniqueWithoutWineTasterInput!]
+  upsert: [ReviewUpsertWithWhereUniqueWithoutWineTasterInput!]
+  deleteMany: [ReviewScalarWhereInput!]
+  updateMany: [ReviewUpdateManyWithWhereNestedInput!]
+}
+
+input ReviewUpdateManyWithWhereNestedInput {
+  where: ReviewScalarWhereInput!
+  data: ReviewUpdateManyDataInput!
+}
+
+input ReviewUpdatetastingNotesInput {
+  set: [TastingNotes!]
+}
+
+input ReviewUpdateWithoutTastingSessionDataInput {
+  wine: WineUpdateOneRequiredInput
+  wineTaster: WineTasterUpdateOneRequiredWithoutReviewsInput
+  score: Int
+  tastingNotes: ReviewUpdatetastingNotesInput
+}
+
+input ReviewUpdateWithoutWineTasterDataInput {
+  wine: WineUpdateOneRequiredInput
+  tastingSession: TastingSessionUpdateOneRequiredWithoutReviewsInput
+  score: Int
+  tastingNotes: ReviewUpdatetastingNotesInput
+}
+
+input ReviewUpdateWithWhereUniqueWithoutTastingSessionInput {
+  where: ReviewWhereUniqueInput!
+  data: ReviewUpdateWithoutTastingSessionDataInput!
+}
+
+input ReviewUpdateWithWhereUniqueWithoutWineTasterInput {
+  where: ReviewWhereUniqueInput!
+  data: ReviewUpdateWithoutWineTasterDataInput!
+}
+
+input ReviewUpsertWithWhereUniqueWithoutTastingSessionInput {
+  where: ReviewWhereUniqueInput!
+  update: ReviewUpdateWithoutTastingSessionDataInput!
+  create: ReviewCreateWithoutTastingSessionInput!
+}
+
+input ReviewUpsertWithWhereUniqueWithoutWineTasterInput {
+  where: ReviewWhereUniqueInput!
+  update: ReviewUpdateWithoutWineTasterDataInput!
+  create: ReviewCreateWithoutWineTasterInput!
+}
+
+input ReviewWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  wine: WineWhereInput
+  wineTaster: WineTasterWhereInput
+  tastingSession: TastingSessionWhereInput
+  score: Int
+  score_not: Int
+  score_in: [Int!]
+  score_not_in: [Int!]
+  score_lt: Int
+  score_lte: Int
+  score_gt: Int
+  score_gte: Int
+  AND: [ReviewWhereInput!]
+  OR: [ReviewWhereInput!]
+  NOT: [ReviewWhereInput!]
+}
+
+input ReviewWhereUniqueInput {
+  id: ID
+}
+
+type Subscription {
+  review(where: ReviewSubscriptionWhereInput): ReviewSubscriptionPayload
+  tastingSession(where: TastingSessionSubscriptionWhereInput): TastingSessionSubscriptionPayload
+  wine(where: WineSubscriptionWhereInput): WineSubscriptionPayload
+  wineTaster(where: WineTasterSubscriptionWhereInput): WineTasterSubscriptionPayload
+}
+
+enum TastingNotes {
+  ACIDIC
+  BARNYARD
+  BRIGHT
+  BUTTERY
+  COMPLEX
+  CRISP
+  EARTHY
+  OAKED
+  JUICY
+}
+
+type TastingSession {
+  id: ID!
+  wines(where: WineWhereInput, orderBy: WineOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Wine!]
+  wineTasters(where: WineTasterWhereInput, orderBy: WineTasterOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [WineTaster!]
+  reviews(where: ReviewWhereInput, orderBy: ReviewOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Review!]
+}
+
+type TastingSessionConnection {
+  pageInfo: PageInfo!
+  edges: [TastingSessionEdge]!
+  aggregate: AggregateTastingSession!
+}
+
+input TastingSessionCreateInput {
+  wines: WineCreateManyInput
+  wineTasters: WineTasterCreateManyInput
+  reviews: ReviewCreateManyWithoutTastingSessionInput
+}
+
+input TastingSessionCreateOneWithoutReviewsInput {
+  create: TastingSessionCreateWithoutReviewsInput
+  connect: TastingSessionWhereUniqueInput
+}
+
+input TastingSessionCreateWithoutReviewsInput {
+  wines: WineCreateManyInput
+  wineTasters: WineTasterCreateManyInput
+}
+
+type TastingSessionEdge {
+  node: TastingSession!
+  cursor: String!
+}
+
+enum TastingSessionOrderByInput {
+  id_ASC
+  id_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type TastingSessionPreviousValues {
+  id: ID!
+}
+
+type TastingSessionSubscriptionPayload {
+  mutation: MutationType!
+  node: TastingSession
+  updatedFields: [String!]
+  previousValues: TastingSessionPreviousValues
+}
+
+input TastingSessionSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: TastingSessionWhereInput
+  AND: [TastingSessionSubscriptionWhereInput!]
+  OR: [TastingSessionSubscriptionWhereInput!]
+  NOT: [TastingSessionSubscriptionWhereInput!]
+}
+
+input TastingSessionUpdateInput {
+  wines: WineUpdateManyInput
+  wineTasters: WineTasterUpdateManyInput
+  reviews: ReviewUpdateManyWithoutTastingSessionInput
+}
+
+input TastingSessionUpdateOneRequiredWithoutReviewsInput {
+  create: TastingSessionCreateWithoutReviewsInput
+  update: TastingSessionUpdateWithoutReviewsDataInput
+  upsert: TastingSessionUpsertWithoutReviewsInput
+  connect: TastingSessionWhereUniqueInput
+}
+
+input TastingSessionUpdateWithoutReviewsDataInput {
+  wines: WineUpdateManyInput
+  wineTasters: WineTasterUpdateManyInput
+}
+
+input TastingSessionUpsertWithoutReviewsInput {
+  update: TastingSessionUpdateWithoutReviewsDataInput!
+  create: TastingSessionCreateWithoutReviewsInput!
+}
+
+input TastingSessionWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  wines_every: WineWhereInput
+  wines_some: WineWhereInput
+  wines_none: WineWhereInput
+  wineTasters_every: WineTasterWhereInput
+  wineTasters_some: WineTasterWhereInput
+  wineTasters_none: WineTasterWhereInput
+  reviews_every: ReviewWhereInput
+  reviews_some: ReviewWhereInput
+  reviews_none: ReviewWhereInput
+  AND: [TastingSessionWhereInput!]
+  OR: [TastingSessionWhereInput!]
+  NOT: [TastingSessionWhereInput!]
+}
+
+input TastingSessionWhereUniqueInput {
+  id: ID
+}
+
+type Wine {
+  id: ID!
+  name: String!
+  grapes: [WineGrapes!]!
+  winery: String
+  year: Int
+  alcohol: Float
+  price: Float
+}
+
+type WineConnection {
+  pageInfo: PageInfo!
+  edges: [WineEdge]!
+  aggregate: AggregateWine!
+}
+
+input WineCreategrapesInput {
+  set: [WineGrapes!]
+}
+
+input WineCreateInput {
+  name: String!
+  grapes: WineCreategrapesInput
+  winery: String
+  year: Int
+  alcohol: Float
+  price: Float
+}
+
+input WineCreateManyInput {
+  create: [WineCreateInput!]
+  connect: [WineWhereUniqueInput!]
+}
+
+input WineCreateOneInput {
+  create: WineCreateInput
+  connect: WineWhereUniqueInput
+}
+
+type WineEdge {
+  node: Wine!
+  cursor: String!
+}
+
+enum WineGrapes {
+  RIESLING
+  GEWURZTRAMINER
+  CHARDONNAY
+  SAUVIGNON_BLANC
+  SYRAH
+  MERLOT
+  CABERNET_SAUVIGNON
+  PINOT_NOIR
+}
+
+enum WineOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  winery_ASC
+  winery_DESC
+  year_ASC
+  year_DESC
+  alcohol_ASC
+  alcohol_DESC
+  price_ASC
+  price_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type WinePreviousValues {
+  id: ID!
+  name: String!
+  grapes: [WineGrapes!]!
+  winery: String
+  year: Int
+  alcohol: Float
+  price: Float
+}
+
+input WineScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  winery: String
+  winery_not: String
+  winery_in: [String!]
+  winery_not_in: [String!]
+  winery_lt: String
+  winery_lte: String
+  winery_gt: String
+  winery_gte: String
+  winery_contains: String
+  winery_not_contains: String
+  winery_starts_with: String
+  winery_not_starts_with: String
+  winery_ends_with: String
+  winery_not_ends_with: String
+  year: Int
+  year_not: Int
+  year_in: [Int!]
+  year_not_in: [Int!]
+  year_lt: Int
+  year_lte: Int
+  year_gt: Int
+  year_gte: Int
+  alcohol: Float
+  alcohol_not: Float
+  alcohol_in: [Float!]
+  alcohol_not_in: [Float!]
+  alcohol_lt: Float
+  alcohol_lte: Float
+  alcohol_gt: Float
+  alcohol_gte: Float
+  price: Float
+  price_not: Float
+  price_in: [Float!]
+  price_not_in: [Float!]
+  price_lt: Float
+  price_lte: Float
+  price_gt: Float
+  price_gte: Float
+  AND: [WineScalarWhereInput!]
+  OR: [WineScalarWhereInput!]
+  NOT: [WineScalarWhereInput!]
+}
+
+type WineSubscriptionPayload {
+  mutation: MutationType!
+  node: Wine
+  updatedFields: [String!]
+  previousValues: WinePreviousValues
+}
+
+input WineSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: WineWhereInput
+  AND: [WineSubscriptionWhereInput!]
+  OR: [WineSubscriptionWhereInput!]
+  NOT: [WineSubscriptionWhereInput!]
+}
+
+type WineTaster {
+  id: ID!
+  name: String!
+  nationality: String
+  gender: Gender
+  age: Int
+  favouriteWine: Wine
+  reviews(where: ReviewWhereInput, orderBy: ReviewOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Review!]
+}
+
+type WineTasterConnection {
+  pageInfo: PageInfo!
+  edges: [WineTasterEdge]!
+  aggregate: AggregateWineTaster!
+}
+
+input WineTasterCreateInput {
+  name: String!
+  nationality: String
+  gender: Gender
+  age: Int
+  favouriteWine: WineCreateOneInput
+  reviews: ReviewCreateManyWithoutWineTasterInput
+}
+
+input WineTasterCreateManyInput {
+  create: [WineTasterCreateInput!]
+  connect: [WineTasterWhereUniqueInput!]
+}
+
+input WineTasterCreateOneWithoutReviewsInput {
+  create: WineTasterCreateWithoutReviewsInput
+  connect: WineTasterWhereUniqueInput
+}
+
+input WineTasterCreateWithoutReviewsInput {
+  name: String!
+  nationality: String
+  gender: Gender
+  age: Int
+  favouriteWine: WineCreateOneInput
+}
+
+type WineTasterEdge {
+  node: WineTaster!
+  cursor: String!
+}
+
+enum WineTasterOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  nationality_ASC
+  nationality_DESC
+  gender_ASC
+  gender_DESC
+  age_ASC
+  age_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type WineTasterPreviousValues {
+  id: ID!
+  name: String!
+  nationality: String
+  gender: Gender
+  age: Int
+}
+
+input WineTasterScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  nationality: String
+  nationality_not: String
+  nationality_in: [String!]
+  nationality_not_in: [String!]
+  nationality_lt: String
+  nationality_lte: String
+  nationality_gt: String
+  nationality_gte: String
+  nationality_contains: String
+  nationality_not_contains: String
+  nationality_starts_with: String
+  nationality_not_starts_with: String
+  nationality_ends_with: String
+  nationality_not_ends_with: String
+  gender: Gender
+  gender_not: Gender
+  gender_in: [Gender!]
+  gender_not_in: [Gender!]
+  age: Int
+  age_not: Int
+  age_in: [Int!]
+  age_not_in: [Int!]
+  age_lt: Int
+  age_lte: Int
+  age_gt: Int
+  age_gte: Int
+  AND: [WineTasterScalarWhereInput!]
+  OR: [WineTasterScalarWhereInput!]
+  NOT: [WineTasterScalarWhereInput!]
+}
+
+type WineTasterSubscriptionPayload {
+  mutation: MutationType!
+  node: WineTaster
+  updatedFields: [String!]
+  previousValues: WineTasterPreviousValues
+}
+
+input WineTasterSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: WineTasterWhereInput
+  AND: [WineTasterSubscriptionWhereInput!]
+  OR: [WineTasterSubscriptionWhereInput!]
+  NOT: [WineTasterSubscriptionWhereInput!]
+}
+
+input WineTasterUpdateDataInput {
+  name: String
+  nationality: String
+  gender: Gender
+  age: Int
+  favouriteWine: WineUpdateOneInput
+  reviews: ReviewUpdateManyWithoutWineTasterInput
+}
+
+input WineTasterUpdateInput {
+  name: String
+  nationality: String
+  gender: Gender
+  age: Int
+  favouriteWine: WineUpdateOneInput
+  reviews: ReviewUpdateManyWithoutWineTasterInput
+}
+
+input WineTasterUpdateManyDataInput {
+  name: String
+  nationality: String
+  gender: Gender
+  age: Int
+}
+
+input WineTasterUpdateManyInput {
+  create: [WineTasterCreateInput!]
+  update: [WineTasterUpdateWithWhereUniqueNestedInput!]
+  upsert: [WineTasterUpsertWithWhereUniqueNestedInput!]
+  delete: [WineTasterWhereUniqueInput!]
+  connect: [WineTasterWhereUniqueInput!]
+  set: [WineTasterWhereUniqueInput!]
+  disconnect: [WineTasterWhereUniqueInput!]
+  deleteMany: [WineTasterScalarWhereInput!]
+  updateMany: [WineTasterUpdateManyWithWhereNestedInput!]
+}
+
+input WineTasterUpdateManyMutationInput {
+  name: String
+  nationality: String
+  gender: Gender
+  age: Int
+}
+
+input WineTasterUpdateManyWithWhereNestedInput {
+  where: WineTasterScalarWhereInput!
+  data: WineTasterUpdateManyDataInput!
+}
+
+input WineTasterUpdateOneRequiredWithoutReviewsInput {
+  create: WineTasterCreateWithoutReviewsInput
+  update: WineTasterUpdateWithoutReviewsDataInput
+  upsert: WineTasterUpsertWithoutReviewsInput
+  connect: WineTasterWhereUniqueInput
+}
+
+input WineTasterUpdateWithoutReviewsDataInput {
+  name: String
+  nationality: String
+  gender: Gender
+  age: Int
+  favouriteWine: WineUpdateOneInput
+}
+
+input WineTasterUpdateWithWhereUniqueNestedInput {
+  where: WineTasterWhereUniqueInput!
+  data: WineTasterUpdateDataInput!
+}
+
+input WineTasterUpsertWithoutReviewsInput {
+  update: WineTasterUpdateWithoutReviewsDataInput!
+  create: WineTasterCreateWithoutReviewsInput!
+}
+
+input WineTasterUpsertWithWhereUniqueNestedInput {
+  where: WineTasterWhereUniqueInput!
+  update: WineTasterUpdateDataInput!
+  create: WineTasterCreateInput!
+}
+
+input WineTasterWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  nationality: String
+  nationality_not: String
+  nationality_in: [String!]
+  nationality_not_in: [String!]
+  nationality_lt: String
+  nationality_lte: String
+  nationality_gt: String
+  nationality_gte: String
+  nationality_contains: String
+  nationality_not_contains: String
+  nationality_starts_with: String
+  nationality_not_starts_with: String
+  nationality_ends_with: String
+  nationality_not_ends_with: String
+  gender: Gender
+  gender_not: Gender
+  gender_in: [Gender!]
+  gender_not_in: [Gender!]
+  age: Int
+  age_not: Int
+  age_in: [Int!]
+  age_not_in: [Int!]
+  age_lt: Int
+  age_lte: Int
+  age_gt: Int
+  age_gte: Int
+  favouriteWine: WineWhereInput
+  reviews_every: ReviewWhereInput
+  reviews_some: ReviewWhereInput
+  reviews_none: ReviewWhereInput
+  AND: [WineTasterWhereInput!]
+  OR: [WineTasterWhereInput!]
+  NOT: [WineTasterWhereInput!]
+}
+
+input WineTasterWhereUniqueInput {
+  id: ID
+  name: String
+}
+
+input WineUpdateDataInput {
+  name: String
+  grapes: WineUpdategrapesInput
+  winery: String
+  year: Int
+  alcohol: Float
+  price: Float
+}
+
+input WineUpdategrapesInput {
+  set: [WineGrapes!]
+}
+
+input WineUpdateInput {
+  name: String
+  grapes: WineUpdategrapesInput
+  winery: String
+  year: Int
+  alcohol: Float
+  price: Float
+}
+
+input WineUpdateManyDataInput {
+  name: String
+  grapes: WineUpdategrapesInput
+  winery: String
+  year: Int
+  alcohol: Float
+  price: Float
+}
+
+input WineUpdateManyInput {
+  create: [WineCreateInput!]
+  update: [WineUpdateWithWhereUniqueNestedInput!]
+  upsert: [WineUpsertWithWhereUniqueNestedInput!]
+  delete: [WineWhereUniqueInput!]
+  connect: [WineWhereUniqueInput!]
+  set: [WineWhereUniqueInput!]
+  disconnect: [WineWhereUniqueInput!]
+  deleteMany: [WineScalarWhereInput!]
+  updateMany: [WineUpdateManyWithWhereNestedInput!]
+}
+
+input WineUpdateManyMutationInput {
+  name: String
+  grapes: WineUpdategrapesInput
+  winery: String
+  year: Int
+  alcohol: Float
+  price: Float
+}
+
+input WineUpdateManyWithWhereNestedInput {
+  where: WineScalarWhereInput!
+  data: WineUpdateManyDataInput!
+}
+
+input WineUpdateOneInput {
+  create: WineCreateInput
+  update: WineUpdateDataInput
+  upsert: WineUpsertNestedInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: WineWhereUniqueInput
+}
+
+input WineUpdateOneRequiredInput {
+  create: WineCreateInput
+  update: WineUpdateDataInput
+  upsert: WineUpsertNestedInput
+  connect: WineWhereUniqueInput
+}
+
+input WineUpdateWithWhereUniqueNestedInput {
+  where: WineWhereUniqueInput!
+  data: WineUpdateDataInput!
+}
+
+input WineUpsertNestedInput {
+  update: WineUpdateDataInput!
+  create: WineCreateInput!
+}
+
+input WineUpsertWithWhereUniqueNestedInput {
+  where: WineWhereUniqueInput!
+  update: WineUpdateDataInput!
+  create: WineCreateInput!
+}
+
+input WineWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  winery: String
+  winery_not: String
+  winery_in: [String!]
+  winery_not_in: [String!]
+  winery_lt: String
+  winery_lte: String
+  winery_gt: String
+  winery_gte: String
+  winery_contains: String
+  winery_not_contains: String
+  winery_starts_with: String
+  winery_not_starts_with: String
+  winery_ends_with: String
+  winery_not_ends_with: String
+  year: Int
+  year_not: Int
+  year_in: [Int!]
+  year_not_in: [Int!]
+  year_lt: Int
+  year_lte: Int
+  year_gt: Int
+  year_gte: Int
+  alcohol: Float
+  alcohol_not: Float
+  alcohol_in: [Float!]
+  alcohol_not_in: [Float!]
+  alcohol_lt: Float
+  alcohol_lte: Float
+  alcohol_gt: Float
+  alcohol_gte: Float
+  price: Float
+  price_not: Float
+  price_in: [Float!]
+  price_not_in: [Float!]
+  price_lt: Float
+  price_lte: Float
+  price_gt: Float
+  price_gte: Float
+  AND: [WineWhereInput!]
+  OR: [WineWhereInput!]
+  NOT: [WineWhereInput!]
+}
+
+input WineWhereUniqueInput {
+  id: ID
+}

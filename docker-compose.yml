@@ -1,9 +1,9 @@
-version: "3"
+version: "3.7"
 services:
   prisma:
     image: prismagraphql/prisma:1.29
     restart: always
-    depends_on: 
+    depends_on:
       - mysql
     ports:
       - "0.0.0.0:4466:4466"
@@ -28,5 +28,5 @@ services:
       - mysql:/var/lib/mysql
     ports:
       - "3306:3306"
-volumes:
+volumes: 
   mysql:
