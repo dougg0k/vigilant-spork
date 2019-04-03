@@ -5,13 +5,19 @@
 	"dependencies": {
 		"@material-ui/core": "^3.9.2",
 		"apollo-boost": "^0.3.1",
+		"bull": "^3.7.0",
+		"bull-arena": "^2.6.2",
+		"flatted": "^2.0.0",
 		"graphql": "^14.2.0",
 		"graphql-yoga": "^1.17.4",
 		"prisma-binding": "^2.3.10",
+		"puppeteer": "^1.13.0",
 		"react": "^16.8.5",
 		"react-apollo": "^2.5.3",
 		"react-dom": "^16.8.5",
-		"react-scripts": "^2.1.8"
+		"react-scripts": "^2.1.8",
+		"tesseract.js": "^1.0.14",
+		"uuid": "^3.3.2"
 	},
 	"scripts": {
 		"start": "react-scripts start",

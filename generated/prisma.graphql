@@ -1,3 +1,7 @@
+type AggregateImage {
+  count: Int!
+}
+
 type AggregateReview {
   count: Int!
 }
@@ -23,9 +27,205 @@ enum Gender {
   FEMALE
 }
 
+type Image {
+  id: ID!
+  filename: String!
+  mimetype: String!
+  encoding: String!
+  url: String!
+}
+
+type ImageConnection {
+  pageInfo: PageInfo!
+  edges: [ImageEdge]!
+  aggregate: AggregateImage!
+}
+
+input ImageCreateInput {
+  filename: String!
+  mimetype: String!
+  encoding: String!
+  url: String!
+}
+
+input ImageCreateOneInput {
+  create: ImageCreateInput
+  connect: ImageWhereUniqueInput
+}
+
+type ImageEdge {
+  node: Image!
+  cursor: String!
+}
+
+enum ImageOrderByInput {
+  id_ASC
+  id_DESC
+  filename_ASC
+  filename_DESC
+  mimetype_ASC
+  mimetype_DESC
+  encoding_ASC
+  encoding_DESC
+  url_ASC
+  url_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type ImagePreviousValues {
+  id: ID!
+  filename: String!
+  mimetype: String!
+  encoding: String!
+  url: String!
+}
+
+type ImageSubscriptionPayload {
+  mutation: MutationType!
+  node: Image
+  updatedFields: [String!]
+  previousValues: ImagePreviousValues
+}
+
+input ImageSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: ImageWhereInput
+  AND: [ImageSubscriptionWhereInput!]
+  OR: [ImageSubscriptionWhereInput!]
+  NOT: [ImageSubscriptionWhereInput!]
+}
+
+input ImageUpdateDataInput {
+  filename: String
+  mimetype: String
+  encoding: String
+  url: String
+}
+
+input ImageUpdateInput {
+  filename: String
+  mimetype: String
+  encoding: String
+  url: String
+}
+
+input ImageUpdateManyMutationInput {
+  filename: String
+  mimetype: String
+  encoding: String
+  url: String
+}
+
+input ImageUpdateOneInput {
+  create: ImageCreateInput
+  update: ImageUpdateDataInput
+  upsert: ImageUpsertNestedInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: ImageWhereUniqueInput
+}
+
+input ImageUpsertNestedInput {
+  update: ImageUpdateDataInput!
+  create: ImageCreateInput!
+}
+
+input ImageWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  filename: String
+  filename_not: String
+  filename_in: [String!]
+  filename_not_in: [String!]
+  filename_lt: String
+  filename_lte: String
+  filename_gt: String
+  filename_gte: String
+  filename_contains: String
+  filename_not_contains: String
+  filename_starts_with: String
+  filename_not_starts_with: String
+  filename_ends_with: String
+  filename_not_ends_with: String
+  mimetype: String
+  mimetype_not: String
+  mimetype_in: [String!]
+  mimetype_not_in: [String!]
+  mimetype_lt: String
+  mimetype_lte: String
+  mimetype_gt: String
+  mimetype_gte: String
+  mimetype_contains: String
+  mimetype_not_contains: String
+  mimetype_starts_with: String
+  mimetype_not_starts_with: String
+  mimetype_ends_with: String
+  mimetype_not_ends_with: String
+  encoding: String
+  encoding_not: String
+  encoding_in: [String!]
+  encoding_not_in: [String!]
+  encoding_lt: String
+  encoding_lte: String
+  encoding_gt: String
+  encoding_gte: String
+  encoding_contains: String
+  encoding_not_contains: String
+  encoding_starts_with: String
+  encoding_not_starts_with: String
+  encoding_ends_with: String
+  encoding_not_ends_with: String
+  url: String
+  url_not: String
+  url_in: [String!]
+  url_not_in: [String!]
+  url_lt: String
+  url_lte: String
+  url_gt: String
+  url_gte: String
+  url_contains: String
+  url_not_contains: String
+  url_starts_with: String
+  url_not_starts_with: String
+  url_ends_with: String
+  url_not_ends_with: String
+  AND: [ImageWhereInput!]
+  OR: [ImageWhereInput!]
+  NOT: [ImageWhereInput!]
+}
+
+input ImageWhereUniqueInput {
+  id: ID
+  url: String
+}
+
 scalar Long
 
 type Mutation {
+  createImage(data: ImageCreateInput!): Image!
+  updateImage(data: ImageUpdateInput!, where: ImageWhereUniqueInput!): Image
+  updateManyImages(data: ImageUpdateManyMutationInput!, where: ImageWhereInput): BatchPayload!
+  upsertImage(where: ImageWhereUniqueInput!, create: ImageCreateInput!, update: ImageUpdateInput!): Image!
+  deleteImage(where: ImageWhereUniqueInput!): Image
+  deleteManyImages(where: ImageWhereInput): BatchPayload!
   createReview(data: ReviewCreateInput!): Review!
   updateReview(data: ReviewUpdateInput!, where: ReviewWhereUniqueInput!): Review
   updateManyReviews(data: ReviewUpdateManyMutationInput!, where: ReviewWhereInput): BatchPayload!
@@ -69,6 +269,9 @@ type PageInfo {
 }
 
 type Query {
+  image(where: ImageWhereUniqueInput!): Image
+  images(where: ImageWhereInput, orderBy: ImageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Image]!
+  imagesConnection(where: ImageWhereInput, orderBy: ImageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ImageConnection!
   review(where: ReviewWhereUniqueInput!): Review
   reviews(where: ReviewWhereInput, orderBy: ReviewOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Review]!
   reviewsConnection(where: ReviewWhereInput, orderBy: ReviewOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ReviewConnection!
@@ -326,6 +529,7 @@ input ReviewWhereUniqueInput {
 }
 
 type Subscription {
+  image(where: ImageSubscriptionWhereInput): ImageSubscriptionPayload
   review(where: ReviewSubscriptionWhereInput): ReviewSubscriptionPayload
   tastingSession(where: TastingSessionSubscriptionWhereInput): TastingSessionSubscriptionPayload
   wine(where: WineSubscriptionWhereInput): WineSubscriptionPayload
@@ -473,6 +677,11 @@ type Wine {
   year: Int
   alcohol: Float
   price: Float
+  by: String
+  madeIn: String
+  style: String
+  sugarContent: String
+  image: Image
 }
 
 type WineConnection {
@@ -492,6 +701,11 @@ input WineCreateInput {
   year: Int
   alcohol: Float
   price: Float
+  by: String
+  madeIn: String
+  style: String
+  sugarContent: String
+  image: ImageCreateOneInput
 }
 
 input WineCreateManyInput {
@@ -533,6 +747,14 @@ enum WineOrderByInput {
   alcohol_DESC
   price_ASC
   price_DESC
+  by_ASC
+  by_DESC
+  madeIn_ASC
+  madeIn_DESC
+  style_ASC
+  style_DESC
+  sugarContent_ASC
+  sugarContent_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -547,6 +769,10 @@ type WinePreviousValues {
   year: Int
   alcohol: Float
   price: Float
+  by: String
+  madeIn: String
+  style: String
+  sugarContent: String
 }
 
 input WineScalarWhereInput {
@@ -616,6 +842,62 @@ input WineScalarWhereInput {
   price_lte: Float
   price_gt: Float
   price_gte: Float
+  by: String
+  by_not: String
+  by_in: [String!]
+  by_not_in: [String!]
+  by_lt: String
+  by_lte: String
+  by_gt: String
+  by_gte: String
+  by_contains: String
+  by_not_contains: String
+  by_starts_with: String
+  by_not_starts_with: String
+  by_ends_with: String
+  by_not_ends_with: String
+  madeIn: String
+  madeIn_not: String
+  madeIn_in: [String!]
+  madeIn_not_in: [String!]
+  madeIn_lt: String
+  madeIn_lte: String
+  madeIn_gt: String
+  madeIn_gte: String
+  madeIn_contains: String
+  madeIn_not_contains: String
+  madeIn_starts_with: String
+  madeIn_not_starts_with: String
+  madeIn_ends_with: String
+  madeIn_not_ends_with: String
+  style: String
+  style_not: String
+  style_in: [String!]
+  style_not_in: [String!]
+  style_lt: String
+  style_lte: String
+  style_gt: String
+  style_gte: String
+  style_contains: String
+  style_not_contains: String
+  style_starts_with: String
+  style_not_starts_with: String
+  style_ends_with: String
+  style_not_ends_with: String
+  sugarContent: String
+  sugarContent_not: String
+  sugarContent_in: [String!]
+  sugarContent_not_in: [String!]
+  sugarContent_lt: String
+  sugarContent_lte: String
+  sugarContent_gt: String
+  sugarContent_gte: String
+  sugarContent_contains: String
+  sugarContent_not_contains: String
+  sugarContent_starts_with: String
+  sugarContent_not_starts_with: String
+  sugarContent_ends_with: String
+  sugarContent_not_ends_with: String
   AND: [WineScalarWhereInput!]
   OR: [WineScalarWhereInput!]
   NOT: [WineScalarWhereInput!]
@@ -946,6 +1228,11 @@ input WineUpdateDataInput {
   year: Int
   alcohol: Float
   price: Float
+  by: String
+  madeIn: String
+  style: String
+  sugarContent: String
+  image: ImageUpdateOneInput
 }
 
 input WineUpdategrapesInput {
@@ -959,6 +1246,11 @@ input WineUpdateInput {
   year: Int
   alcohol: Float
   price: Float
+  by: String
+  madeIn: String
+  style: String
+  sugarContent: String
+  image: ImageUpdateOneInput
 }
 
 input WineUpdateManyDataInput {
@@ -968,6 +1260,10 @@ input WineUpdateManyDataInput {
   year: Int
   alcohol: Float
   price: Float
+  by: String
+  madeIn: String
+  style: String
+  sugarContent: String
 }
 
 input WineUpdateManyInput {
@@ -989,6 +1285,10 @@ input WineUpdateManyMutationInput {
   year: Int
   alcohol: Float
   price: Float
+  by: String
+  madeIn: String
+  style: String
+  sugarContent: String
 }
 
 input WineUpdateManyWithWhereNestedInput {
@@ -1095,6 +1395,63 @@ input WineWhereInput {
   price_lte: Float
   price_gt: Float
   price_gte: Float
+  by: String
+  by_not: String
+  by_in: [String!]
+  by_not_in: [String!]
+  by_lt: String
+  by_lte: String
+  by_gt: String
+  by_gte: String
+  by_contains: String
+  by_not_contains: String
+  by_starts_with: String
+  by_not_starts_with: String
+  by_ends_with: String
+  by_not_ends_with: String
+  madeIn: String
+  madeIn_not: String
+  madeIn_in: [String!]
+  madeIn_not_in: [String!]
+  madeIn_lt: String
+  madeIn_lte: String
+  madeIn_gt: String
+  madeIn_gte: String
+  madeIn_contains: String
+  madeIn_not_contains: String
+  madeIn_starts_with: String
+  madeIn_not_starts_with: String
+  madeIn_ends_with: String
+  madeIn_not_ends_with: String
+  style: String
+  style_not: String
+  style_in: [String!]
+  style_not_in: [String!]
+  style_lt: String
+  style_lte: String
+  style_gt: String
+  style_gte: String
+  style_contains: String
+  style_not_contains: String
+  style_starts_with: String
+  style_not_starts_with: String
+  style_ends_with: String
+  style_not_ends_with: String
+  sugarContent: String
+  sugarContent_not: String
+  sugarContent_in: [String!]
+  sugarContent_not_in: [String!]
+  sugarContent_lt: String
+  sugarContent_lte: String
+  sugarContent_gt: String
+  sugarContent_gte: String
+  sugarContent_contains: String
+  sugarContent_not_contains: String
+  sugarContent_starts_with: String
+  sugarContent_not_starts_with: String
+  sugarContent_ends_with: String
+  sugarContent_not_ends_with: String
+  image: ImageWhereInput
   AND: [WineWhereInput!]
   OR: [WineWhereInput!]
   NOT: [WineWhereInput!]

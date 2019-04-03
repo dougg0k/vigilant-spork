@@ -15,3 +15,4 @@ yarn-error.log*
 .idea
 README_Instructions.md
 pull_request_template.md
+/server/uploadedImages/*

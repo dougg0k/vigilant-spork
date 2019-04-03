@@ -1,7 +1,15 @@
-type Query {
-	hello: String
-}
+# import Wine from "../generated/prisma.graphql"
+
+scalar Upload
 
 type Mutation {
-	helloM(id: ID): String
+	processWine(files: [Upload], channelId: Int!): [Wine]
+}
+
+type Query {
+	wines: [Wine]
+}
+
+type Subscription {
+	wineProcessed(channelId: Int!): Wine
 }
