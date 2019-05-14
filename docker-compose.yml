@@ -6,7 +6,7 @@ services:
     ports:
       - 6379:6379
   prisma:
-    image: prismagraphql/prisma:1.29
+    image: prismagraphql/prisma:1.32
     restart: always
     depends_on:
       - mysql

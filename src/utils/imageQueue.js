@@ -1,6 +1,5 @@
 const Queue = require("bull");
 const { stringify } = require("flatted/cjs");
-
 const imageProcessing = require("./imageProcessing");
 
 const imageQueue = new Queue("image", "redis");
