@@ -1,7 +1,12 @@
 version: "3.7"
 services:
+  redis:
+    image: redis:latest
+    restart: always
+    ports:
+      - 6379:6379
   prisma:
-    image: prismagraphql/prisma:1.29
+    image: prismagraphql/prisma:1.33
     restart: always
     depends_on:
       - mysql
@@ -28,5 +33,5 @@ services:
       - mysql:/var/lib/mysql
     ports:
       - "3306:3306"
-volumes: 
+volumes:
   mysql:
