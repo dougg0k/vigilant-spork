@@ -3,7 +3,7 @@
 scalar Upload
 
 type Mutation {
-	processWine(files: [Upload], channelId: Int!): [Wine]
+	processWine(files: [Upload], channelId: Int!): Wine
 }
 
 type Query {

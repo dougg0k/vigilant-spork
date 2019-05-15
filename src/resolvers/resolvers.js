@@ -1,9 +1,10 @@
 const { withFilter } = require("graphql-yoga");
-const { parse } = require("flatted/cjs");
+const parseResult = require("./parseResult");
 const { WINE_PROCESSED } = require("../utils/constants");
-const imageQueue = require("../utils/imageQueue");
-const writeImageToLocal = require("../utils/writeImageToLocal");
-const gatherWineInformation = require("../utils/gatherWineInformation");
+const imageQueue = require("./imageQueue");
+const writeImageToLocal = require("./writeImageToLocal");
+const scrapeWineInformation = require("./scrapeWineInformation");
+const { capitalize, formatTextToFloat } = require("../utils/helpers");
 
 module.exports = {
 	Mutation: {
@@ -17,58 +18,53 @@ module.exports = {
 							{ image: fileProcessed },
 							{ removeOnComplete: true, removeOnFail: true }
 						);
-					} catch (err) {
-						console.log(err);
-					}
+					} catch (err) {}
 				})
 			);
 
 			imageQueue.on("completed", async (job, result) => {
-				const resultParsed = parse(result);
-				console.log("RESULT = ", resultParsed);
-				// Process Information from job, gather missing information
-				// const wineInfo = await gatherWineInformation("name");
+				const resultParsed = parseResult(result);
+				if (!resultParsed) {
+					return {
+						message: "Parser was not able to get data from this file"
+					};
+				}
+				const info = await scrapeWineInformation(resultParsed);
 
 				const wine = {
-					name: "",
+					name: capitalize(resultParsed),
 					grapes: [],
 					winery: "",
-					year: 0,
-					alcohol: 0.0,
-					price: 0.0,
-					by: "",
-					madeIn: "",
-					style: "",
-					sugarContent: "",
-					image: {
-						url: "",
-						filename: "",
-						mimetype: "",
-						encoding: ""
-					}
+					year: info.Year || 0,
+					alcohol: formatTextToFloat(info.AchoholVol) || 0.0,
+					price: formatTextToFloat(info.Price) || 0.0,
+					by: info.By || "",
+					madeIn: info.MadeIn || "",
+					style: info.Style || "",
+					sugarContent: info.SugarContent || ""
 				};
 
-				// const wineExists = await db.exists.Wine({
-				// 	name: ""
-				// });
-				// if (!wineExists) {
-				// 	await db.mutation.createWine({ data: wine }, "{ id }");
-				// }
-
-				// pubsub.publish(WINE_PROCESSED, {
-				// 	channelId: channelId,
-				// 	uploadImages: wine
-				// });
-			});
-
-			return [
-				{
-					id: 1,
-					fileName: "filename",
-					enconding: "enconding",
-					mimeType: "mimeType"
+				const wineExists = await db.exists.Wine({
+					name: capitalize(resultParsed)
+				});
+				if (!wineExists) {
+					try {
+						const created = await db.mutation.createWine(
+							{ data: wine },
+							"{ id }"
+						);
+						wine["id"] = created.id;
+					} catch (err) {
+						console.log(err);
+					}
 				}
-			];
+
+				pubsub.publish(WINE_PROCESSED, {
+					channelId,
+					data: wine
+				});
+			});
+			return null;
 		}
 	},
 	Query: {
@@ -77,7 +73,7 @@ module.exports = {
 	Subscription: {
 		wineProcessed: {
 			subscribe: withFilter(
-				() => pubsub.asyncIterator(WINE_PROCESSED),
+				(parent, args, { pubsub }) => pubsub.asyncIterator(WINE_PROCESSED),
 				(payload, args) => payload.channelId === args.channelId
 			)
 		}

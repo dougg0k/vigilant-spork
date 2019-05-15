@@ -4,17 +4,17 @@
 	"private": true,
 	"dependencies": {
 		"bull": "^3.9.1",
-		"bull-arena": "^2.6.2",
+		"bull-arena": "^2.6.3",
 		"flatted": "^2.0.0",
 		"graphql": "^14.3.0",
 		"graphql-yoga": "^1.17.4",
 		"prisma-binding": "^2.3.10",
-		"puppeteer": "^1.15.0",
+		"puppeteer": "^1.16.0",
 		"tesseract.js": "^2.0.0-alpha.3",
 		"uuid": "^3.3.2"
 	},
 	"scripts": {
-		"server:dev": "nodemon src/server.js"
+		"dev": "nodemon src/server.js"
 	},
 	"devDependencies": {
 		"nodemon": "^1.19.0"

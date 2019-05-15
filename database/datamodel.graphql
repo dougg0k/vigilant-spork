@@ -1,25 +1,29 @@
 type WineTaster {
-	id: ID! @unique
+	id: ID! @id
 	name: String! @unique
 	nationality: String
 	gender: Gender
 	age: Int
 	favouriteWine: Wine
 	reviews: [Review!]!
+	updatedAt: DateTime! @updatedAt
+	createdAt: DateTime! @createdAt
 }
 
 type Image {
-	id: ID! @unique
+	id: ID! @id
 	filename: String
 	mimetype: String
 	encoding: String
 	url: String @unique
+	updatedAt: DateTime! @updatedAt
+	createdAt: DateTime! @createdAt
 }
 
 type Wine {
-	id: ID! @unique
+	id: ID! @id
 	name: String!
-	grapes: [WineGrapes]
+	grapes: [WineGrapes] @scalarList(strategy: RELATION)
 	winery: String
 	year: Int
 	alcohol: Float
@@ -29,22 +33,28 @@ type Wine {
 	style: String
 	sugarContent: String
 	image: Image
+	updatedAt: DateTime! @updatedAt
+	createdAt: DateTime! @createdAt
 }
 
 type Review {
-	id: ID! @unique
+	id: ID! @id
 	wine: Wine!
 	wineTaster: WineTaster!
 	tastingSession: TastingSession!
 	score: Int
-	tastingNotes: [TastingNotes]
+	tastingNotes: [TastingNotes] @scalarList(strategy: RELATION)
+	updatedAt: DateTime! @updatedAt
+	createdAt: DateTime! @createdAt
 }
 
 type TastingSession {
-	id: ID! @unique
+	id: ID! @id
 	wines: [Wine!]!
 	wineTasters: [WineTaster!]!
 	reviews: [Review!]!
+	updatedAt: DateTime! @updatedAt
+	createdAt: DateTime! @createdAt
 }
 
 enum WineGrapes {

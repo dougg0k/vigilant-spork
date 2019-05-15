@@ -10,7 +10,7 @@ const prisma = new Prisma({
 const pubsub = new PubSub();
 
 const server = new GraphQLServer({
-	typeDefs: "./server/schema.graphql",
+	typeDefs: "./src/schema.graphql",
 	resolvers,
 	context: req => ({
 		req,

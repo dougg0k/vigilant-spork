@@ -22,6 +22,8 @@ type BatchPayload {
   count: Long!
 }
 
+scalar DateTime
+
 enum Gender {
   MALE
   FEMALE
@@ -29,10 +31,12 @@ enum Gender {
 
 type Image {
   id: ID!
-  filename: String!
-  mimetype: String!
-  encoding: String!
-  url: String!
+  filename: String
+  mimetype: String
+  encoding: String
+  url: String
+  updatedAt: DateTime!
+  createdAt: DateTime!
 }
 
 type ImageConnection {
@@ -42,10 +46,11 @@ type ImageConnection {
 }
 
 input ImageCreateInput {
-  filename: String!
-  mimetype: String!
-  encoding: String!
-  url: String!
+  id: ID
+  filename: String
+  mimetype: String
+  encoding: String
+  url: String
 }
 
 input ImageCreateOneInput {
@@ -69,18 +74,20 @@ enum ImageOrderByInput {
   encoding_DESC
   url_ASC
   url_DESC
-  createdAt_ASC
-  createdAt_DESC
   updatedAt_ASC
   updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
 }
 
 type ImagePreviousValues {
   id: ID!
-  filename: String!
-  mimetype: String!
-  encoding: String!
-  url: String!
+  filename: String
+  mimetype: String
+  encoding: String
+  url: String
+  updatedAt: DateTime!
+  createdAt: DateTime!
 }
 
 type ImageSubscriptionPayload {
@@ -207,6 +214,22 @@ input ImageWhereInput {
   url_not_starts_with: String
   url_ends_with: String
   url_not_ends_with: String
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
   AND: [ImageWhereInput!]
   OR: [ImageWhereInput!]
   NOT: [ImageWhereInput!]
@@ -294,6 +317,8 @@ type Review {
   tastingSession: TastingSession!
   score: Int
   tastingNotes: [TastingNotes!]!
+  updatedAt: DateTime!
+  createdAt: DateTime!
 }
 
 type ReviewConnection {
@@ -303,6 +328,7 @@ type ReviewConnection {
 }
 
 input ReviewCreateInput {
+  id: ID
   wine: WineCreateOneInput!
   wineTaster: WineTasterCreateOneWithoutReviewsInput!
   tastingSession: TastingSessionCreateOneWithoutReviewsInput!
@@ -325,6 +351,7 @@ input ReviewCreatetastingNotesInput {
 }
 
 input ReviewCreateWithoutTastingSessionInput {
+  id: ID
   wine: WineCreateOneInput!
   wineTaster: WineTasterCreateOneWithoutReviewsInput!
   score: Int
@@ -332,6 +359,7 @@ input ReviewCreateWithoutTastingSessionInput {
 }
 
 input ReviewCreateWithoutWineTasterInput {
+  id: ID
   wine: WineCreateOneInput!
   tastingSession: TastingSessionCreateOneWithoutReviewsInput!
   score: Int
@@ -348,16 +376,18 @@ enum ReviewOrderByInput {
   id_DESC
   score_ASC
   score_DESC
-  createdAt_ASC
-  createdAt_DESC
   updatedAt_ASC
   updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
 }
 
 type ReviewPreviousValues {
   id: ID!
   score: Int
   tastingNotes: [TastingNotes!]!
+  updatedAt: DateTime!
+  createdAt: DateTime!
 }
 
 input ReviewScalarWhereInput {
@@ -383,6 +413,22 @@ input ReviewScalarWhereInput {
   score_lte: Int
   score_gt: Int
   score_gte: Int
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
   AND: [ReviewScalarWhereInput!]
   OR: [ReviewScalarWhereInput!]
   NOT: [ReviewScalarWhereInput!]
@@ -519,6 +565,22 @@ input ReviewWhereInput {
   score_lte: Int
   score_gt: Int
   score_gte: Int
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
   AND: [ReviewWhereInput!]
   OR: [ReviewWhereInput!]
   NOT: [ReviewWhereInput!]
@@ -553,6 +615,8 @@ type TastingSession {
   wines(where: WineWhereInput, orderBy: WineOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Wine!]
   wineTasters(where: WineTasterWhereInput, orderBy: WineTasterOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [WineTaster!]
   reviews(where: ReviewWhereInput, orderBy: ReviewOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Review!]
+  updatedAt: DateTime!
+  createdAt: DateTime!
 }
 
 type TastingSessionConnection {
@@ -562,6 +626,7 @@ type TastingSessionConnection {
 }
 
 input TastingSessionCreateInput {
+  id: ID
   wines: WineCreateManyInput
   wineTasters: WineTasterCreateManyInput
   reviews: ReviewCreateManyWithoutTastingSessionInput
@@ -573,6 +638,7 @@ input TastingSessionCreateOneWithoutReviewsInput {
 }
 
 input TastingSessionCreateWithoutReviewsInput {
+  id: ID
   wines: WineCreateManyInput
   wineTasters: WineTasterCreateManyInput
 }
@@ -585,14 +651,16 @@ type TastingSessionEdge {
 enum TastingSessionOrderByInput {
   id_ASC
   id_DESC
-  createdAt_ASC
-  createdAt_DESC
   updatedAt_ASC
   updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
 }
 
 type TastingSessionPreviousValues {
   id: ID!
+  updatedAt: DateTime!
+  createdAt: DateTime!
 }
 
 type TastingSessionSubscriptionPayload {
@@ -660,6 +728,22 @@ input TastingSessionWhereInput {
   reviews_every: ReviewWhereInput
   reviews_some: ReviewWhereInput
   reviews_none: ReviewWhereInput
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
   AND: [TastingSessionWhereInput!]
   OR: [TastingSessionWhereInput!]
   NOT: [TastingSessionWhereInput!]
@@ -682,6 +766,8 @@ type Wine {
   style: String
   sugarContent: String
   image: Image
+  updatedAt: DateTime!
+  createdAt: DateTime!
 }
 
 type WineConnection {
@@ -695,6 +781,7 @@ input WineCreategrapesInput {
 }
 
 input WineCreateInput {
+  id: ID
   name: String!
   grapes: WineCreategrapesInput
   winery: String
@@ -755,10 +842,10 @@ enum WineOrderByInput {
   style_DESC
   sugarContent_ASC
   sugarContent_DESC
-  createdAt_ASC
-  createdAt_DESC
   updatedAt_ASC
   updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
 }
 
 type WinePreviousValues {
@@ -773,6 +860,8 @@ type WinePreviousValues {
   madeIn: String
   style: String
   sugarContent: String
+  updatedAt: DateTime!
+  createdAt: DateTime!
 }
 
 input WineScalarWhereInput {
@@ -898,6 +987,22 @@ input WineScalarWhereInput {
   sugarContent_not_starts_with: String
   sugarContent_ends_with: String
   sugarContent_not_ends_with: String
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
   AND: [WineScalarWhereInput!]
   OR: [WineScalarWhereInput!]
   NOT: [WineScalarWhereInput!]
@@ -929,6 +1034,8 @@ type WineTaster {
   age: Int
   favouriteWine: Wine
   reviews(where: ReviewWhereInput, orderBy: ReviewOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Review!]
+  updatedAt: DateTime!
+  createdAt: DateTime!
 }
 
 type WineTasterConnection {
@@ -938,6 +1045,7 @@ type WineTasterConnection {
 }
 
 input WineTasterCreateInput {
+  id: ID
   name: String!
   nationality: String
   gender: Gender
@@ -957,6 +1065,7 @@ input WineTasterCreateOneWithoutReviewsInput {
 }
 
 input WineTasterCreateWithoutReviewsInput {
+  id: ID
   name: String!
   nationality: String
   gender: Gender
@@ -980,10 +1089,10 @@ enum WineTasterOrderByInput {
   gender_DESC
   age_ASC
   age_DESC
-  createdAt_ASC
-  createdAt_DESC
   updatedAt_ASC
   updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
 }
 
 type WineTasterPreviousValues {
@@ -992,6 +1101,8 @@ type WineTasterPreviousValues {
   nationality: String
   gender: Gender
   age: Int
+  updatedAt: DateTime!
+  createdAt: DateTime!
 }
 
 input WineTasterScalarWhereInput {
@@ -1049,6 +1160,22 @@ input WineTasterScalarWhereInput {
   age_lte: Int
   age_gt: Int
   age_gte: Int
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
   AND: [WineTasterScalarWhereInput!]
   OR: [WineTasterScalarWhereInput!]
   NOT: [WineTasterScalarWhereInput!]
@@ -1211,6 +1338,22 @@ input WineTasterWhereInput {
   reviews_every: ReviewWhereInput
   reviews_some: ReviewWhereInput
   reviews_none: ReviewWhereInput
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
   AND: [WineTasterWhereInput!]
   OR: [WineTasterWhereInput!]
   NOT: [WineTasterWhereInput!]
@@ -1452,6 +1595,22 @@ input WineWhereInput {
   sugarContent_ends_with: String
   sugarContent_not_ends_with: String
   image: ImageWhereInput
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
   AND: [WineWhereInput!]
   OR: [WineWhereInput!]
   NOT: [WineWhereInput!]
