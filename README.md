@@ -1,5 +1,6 @@
-#### For testing:
+# An API to check out Tesseract and a few other libraries
 
+For testing:
 ```
 curl localhost:4000/graphql \
  -F operations='{ "query": "mutation($files: [Upload], $channelId: Int!) { processWine(files: $files, channelId: $channelId) { id } }", "variables": { "files": [null, null], "channelId": 1 } }' \
